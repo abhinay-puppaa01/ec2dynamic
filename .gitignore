@@ -1,5 +1,9 @@
 # Ignore Mac system files
-.terraform*
+.terraform
+*.tfvars
+*.tfstate
+*.tfstate.*
+**/.terraform/*
 
 # Ignore node_modules folder
 provider
