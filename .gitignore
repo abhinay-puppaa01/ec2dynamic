@@ -1,0 +1,8 @@
+# Ignore Mac system files
+.terraform*
+
+# Ignore node_modules folder
+provider
+
+# Ignore all text files
+provider.tf
