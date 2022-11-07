@@ -77,13 +77,6 @@ variable "vpc_security_group_ids" {
   type        = list(any)
   default     = ["sg-020b807bdccc81145"]
 }
-
-variable "ebs_block_device" {
-  description = "Additional EBS block devices to attach to the instance"
-  type        = list(map(string))
-  default     = []
-}
-
 variable "tags" {
   description = "tags"
   type        = map(any)
@@ -98,6 +91,39 @@ variable "tags" {
   }
 }
 
+variable "ebs_block_device" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(map(string))
+  default     = []
+}
+
+variable "iam_instance_profile" {
+  description = "IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile"
+  type        = string
+  default     = null
+}
+
+variable "ebs_optimized" {
+  description = "If true, the launched EC2 instance will be EBS-optimized"
+  type        = bool
+  default     = null
+}
+
+variable "private_ip" {
+  description = "Private IP address to associate with the instance in a VPC"
+  type        = string
+  default     = null
+}
+variable "tenancy" {
+  description = "The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host."
+  type        = string
+  default     = null
+}
+variable "host_id" {
+  description = "ID of a dedicated host that the instance will be assigned to. Use when an instance is to be launched on a specific dedicated host"
+  type        = string
+  default     = null
+}
 
 
 variable "root_block_device_volume_type" {
