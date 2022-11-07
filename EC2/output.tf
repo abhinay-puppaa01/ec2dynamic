@@ -16,3 +16,7 @@ output "primary_network_interface_id" {
   description = "The ID of the instance's primary network interface"
   value       = try(aws_instance.ec2_test.primary_network_interface_id, "")
 }
+output "ec2_instance_state" {
+  description = "The state of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`"
+  value       = aws_instance.ec2_test.instance_state
+}
