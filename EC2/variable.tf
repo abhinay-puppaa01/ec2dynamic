@@ -19,7 +19,7 @@ variable "ami" {
   description = "Ami"
   type        = string
   default     = "ami-0cff7528ff583bf9a"
-} 
+}
 
 variable "instance_type" {
   description = "Instance Type"
@@ -97,3 +97,19 @@ variable "tags" {
     "ProvisionType" : "ProvisionType"
   }
 }
+
+
+
+variable "root_block_device_volume_type" {
+  description = "root_block_device_volume_type"
+  type        = string
+  default     = "gp2"
+}
+variable "root_block_device_volume_size" {
+  description = "root_block_device_volume_size"
+  type        = string
+  default     = "8"
+}
+
+
+
