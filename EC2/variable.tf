@@ -13,13 +13,17 @@ variable "region" {
   type        = string
   default     = "us-east-1"
 }
-
+variable "instance_count" {
+  description = "Private IP address to associate with the instance in a VPC"
+  type        = number
+  default     = 1
+}
 
 variable "ami" {
   description = "Ami"
   type        = string
   default     = "ami-0cff7528ff583bf9a"
-} 
+}
 
 variable "instance_type" {
   description = "Instance Type"
@@ -77,13 +81,6 @@ variable "vpc_security_group_ids" {
   type        = list(any)
   default     = ["sg-020b807bdccc81145"]
 }
-
-variable "ebs_block_device" {
-  description = "Additional EBS block devices to attach to the instance"
-  type        = list(map(string))
-  default     = []
-}
-
 variable "tags" {
   description = "tags"
   type        = map(any)
@@ -97,3 +94,46 @@ variable "tags" {
     "ProvisionType" : "ProvisionType"
   }
 }
+/*
+variable "ebs_block_device" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(map(string))
+  default     = []
+}
+*/
+
+
+variable "ebs_block_device_name" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(string)
+  default     = ["xvdf","xvdg"]
+}
+variable "ebs_block_volume_size" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(string)
+  default     = ["10","20"]
+}
+variable "ebs_block_volume_type" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(string)
+  default     = ["gp3","gp3"]
+}
+variable "ebs_block_volume_iops" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(string)
+  default     = ["3000","3000"]
+}
+
+
+variable "root_block_device_volume_type" {
+  description = "root_block_device_volume_type"
+  type        = string
+  default     = "gp2"
+}
+variable "root_block_device_volume_size" {
+  description = "root_block_device_volume_size"
+  type        = string
+  default     = "8"
+}
+
+
