@@ -13,7 +13,11 @@ variable "region" {
   type        = string
   default     = "us-east-1"
 }
-
+variable "instance_count" {
+  description = "Private IP address to associate with the instance in a VPC"
+  type        = number
+  default     = 1
+}
 
 variable "ami" {
   description = "Ami"
