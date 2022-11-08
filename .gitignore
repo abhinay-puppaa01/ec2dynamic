@@ -4,6 +4,9 @@
 *.tfstate
 *.tfstate.*
 **/.terraform/*
+.terraform.lock.hcl
+.terraform*
+.terraform.*
 
 # Ignore node_modules folder
 provider
