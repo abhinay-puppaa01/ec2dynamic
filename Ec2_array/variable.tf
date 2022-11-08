@@ -90,12 +90,36 @@ variable "tags" {
     "ProvisionType" : "ProvisionType"
   }
 }
-
+/*
 variable "ebs_block_device" {
   description = "Additional EBS block devices to attach to the instance"
   type        = list(map(string))
   default     = []
 }
+*/
+
+
+variable "ebs_block_device_name" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(string)
+  default     = ["xvdf","xvdg"]
+}
+variable "ebs_block_volume_size" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(string)
+  default     = ["10","20"]
+}
+variable "ebs_block_volume_type" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(string)
+  default     = ["gp3","gp3"]
+}
+variable "ebs_block_volume_iops" {
+  description = "Additional EBS block devices to attach to the instance"
+  type        = list(string)
+  default     = ["3000","3000"]
+}
+
 
 variable "root_block_device_volume_type" {
   description = "root_block_device_volume_type"
@@ -107,6 +131,5 @@ variable "root_block_device_volume_size" {
   type        = string
   default     = "8"
 }
-
 
 

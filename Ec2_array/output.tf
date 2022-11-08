@@ -50,10 +50,25 @@ output "ebs_block_device" {
 }*/
 output "ebs_block_device" {
   description = "The state of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`"
-  value       = aws_instance.ec2_test.ebs_block_device[*].device_name
+  value       = aws_instance.ec2_test.ebs_block_device
 
 }
 
+output "ebs_block_device1" {
+  description = "The state of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`"
+  value       = local.ebs_volumes
+
+}
+/*output "ebs_block_device2" {
+  description = "The state of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`"
+ 
+value       = [for i in aws_instance.ec2_test.ebs_block_device : {
+      device_name    = aws_instance.ec2_test.ebs_block_device[*].device_name
+      volume_size    = aws_instance.ec2_test.ebs_block_device[*].volume_size
+      volume_type = aws_instance.ec2_test.ebs_block_device[*].volume_type
+      iops = aws_instance.ec2_test.ebs_block_device[*].iops
+    }]
+}*/
 
 
 
