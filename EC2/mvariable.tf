@@ -1,4 +1,4 @@
-/*
+
 variable "access_key" {
   description = "The username of the user account used to access the Morpheus platform"
   type        = string
@@ -49,11 +49,10 @@ default = "<%= customOptions.subnet_id%>"
 variable "vpc_security_group_ids" {
   description = "vpc_security_group_ids"
   type        = string
-default = "<%= customOptions.vpc_security_group_ids%>"
+default = "<%= customOptions.vpc_security_group_ids.encodeAsJson().toString()%>"
 }
 variable "tags" {
   description = "tags"
   type        = map
-default = "<%= customOptions.aws_tags%>"
+default = "<%= customOptions.aws_tags.encodeAsJson().toString()%>"
 }
-*/
