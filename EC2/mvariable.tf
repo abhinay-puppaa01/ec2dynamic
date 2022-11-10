@@ -1,18 +1,8 @@
-
-
-
-
-
 variable "instance_count" {
   description = "Private IP address to associate with the instance in a VPC"
   type        = number
   default     = 1
 }
-
-
-
-
-
 
 variable "iam_instance_profile" {
   description = "IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile"
@@ -41,8 +31,6 @@ variable "host_id" {
   type        = string
   default     = null
 }
-
-
 
 variable "ebs_block_device_name" {
   description = "Additional EBS block devices to attach to the instance"
@@ -112,8 +100,6 @@ variable "instance_name" {
   type        = string
 default = "<%= customOptions.instance_name%>"
 }
-
-
 
 variable "availability_zone" {
   description = "availability_zone"
