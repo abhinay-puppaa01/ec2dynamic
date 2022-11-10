@@ -16,12 +16,14 @@ resource "aws_instance" "ec2_test" {
   availability_zone      = var.availability_zone
   subnet_id              = var.subnet_id
   vpc_security_group_ids = var.vpc_security_group_ids
-  iam_instance_profile   = var.iam_instance_profile
+  #iam_instance_profile   = var.iam_instance_profile
   ebs_optimized          = var.ebs_optimized
   private_ip             = var.private_ip
   tenancy                = var.tenancy
   host_id                = var.host_id
   tags                   = merge({ "Name" = "${var.instance_name}-${count.index}" }, var.tags)
+
+  iam_instance_profile = var.create_iam_instance_profile ? aws_iam_instance_profile.this[0].name : var.iam_instance_profile
 
   root_block_device {
     volume_size           = var.root_block_device_volume_size
@@ -44,4 +46,49 @@ resource "aws_instance" "ec2_test" {
 
 
 
+}
+
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  count = var.create_iam_instance_profile ? 1 : 0
+
+  statement {
+    sid     = "EC2AssumeRole"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      Service ="ec2.amazonaws.com"
+    }
+  }
+}
+
+resource "aws_iam_role" "this" {
+  count =  var.create_iam_instance_profile ? 1 : 0
+
+  name        =  var.iam_role_name
+  name_prefix = var.iam_role_name
+  description = var.iam_role_description
+  assume_role_policy    = data.aws_iam_policy_document.assume_role_policy[0].json
+  #assume_role_policy  =var.assume_role_policy  
+  force_detach_policies = true
+
+  tags = merge(var.tags, var.iam_role_tags)
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  for_each = { for k, v in var.iam_role_policies : k => v if  var.create_iam_instance_profile }
+  policy_arn = each.value
+  role       = aws_iam_role.this[0].name
+}
+
+resource "aws_iam_instance_profile" "this" {
+  count =  var.create_iam_instance_profile ? 1 : 0
+  role = aws_iam_role.this[0].name
+  name        = var.iam_role_name
+  name_prefix = var.iam_role_name
+  tags = merge(var.tags, var.iam_role_tags)
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

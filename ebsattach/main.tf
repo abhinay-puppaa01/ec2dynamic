@@ -10,7 +10,7 @@ locals {
 }
 
 resource "aws_instance" "ec2_test" {
-  count = var.instance_count
+  #count = var.instance_count
   ami                    = var.ami
   instance_type          = var.instance_type
   availability_zone      = var.availability_zone
@@ -21,27 +21,29 @@ resource "aws_instance" "ec2_test" {
   private_ip             = var.private_ip
   tenancy                = var.tenancy
   host_id                = var.host_id
-  tags                   = merge({ "Name" = "${var.instance_name}-${count.index}" }, var.tags)
+  tags                   = merge({ "Name" = "${var.instance_name}-" }, var.tags)
 
   root_block_device {
     volume_size           = var.root_block_device_volume_size
     volume_type           = var.root_block_device_volume_type
     encrypted             = var.ebs_optimized
     delete_on_termination = true
-    tags                  = merge({ "Name" = "${var.instance_name}-${count.index}" }, var.tags)
+    tags                  = merge({ "Name" = "${var.instance_name}" }, var.tags)
   }
-
-  dynamic "ebs_block_device" {
-    for_each = local.ebs_volumes
-    content {
-      volume_type = lookup(ebs_block_device.value, "volume_type", null)
-      volume_size = lookup(ebs_block_device.value, "volume_size", null)
-      tags        = merge({ "Name" = "${var.instance_name}-${count.index}" }, var.tags)
-      iops        = lookup(ebs_block_device.value, "iops", null)
-      device_name = lookup(ebs_block_device.value, "device_name", null)
-    }
-  }
-
-
 
 }
+
+resource "aws_ebs_volume" "ebs_volume" {
+      count             = length(var.ebs_block_device_name)
+      availability_zone = var.availability_zone
+      size              = var.ebs_block_volume_size[count.index]
+      iops =var.ebs_block_volume_iops[count.index]
+      type = var.ebs_block_volume_type[count.index]
+    }
+
+resource "aws_volume_attachment" "volume_attachement" {
+      count       = length(var.ebs_block_device_name)
+      volume_id   = element(aws_ebs_volume.ebs_volume.*.id, count.index)
+      device_name = element(var.ebs_block_device_name, count.index)
+      instance_id = aws_instance.ec2_test.id
+    }
