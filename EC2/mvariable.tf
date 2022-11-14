@@ -80,7 +80,8 @@ variable "secret_key" {
 variable "region" {
   description = "AWS Region"
   type        = string
-default = "<%= customOptions.region%>"
+default = "us-east-1"
+  #default = "<%= customOptions.region%>"
 }
 
 
